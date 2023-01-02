@@ -1,13 +1,22 @@
-import { useState } from "react";
-import "./App.css";
+import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <p>Testing...</p>
-    </>
+    <GoogleOAuthProvider clientId="">
+      <GoogleLogin
+        text="signin_with"
+        onSuccess={(response) => {
+          console.log(response);
+          fetch("http://localhost:3000/auth/google-authentication", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ token: response.credential }),
+          });
+        }}
+      ></GoogleLogin>
+    </GoogleOAuthProvider>
   );
 }
 
