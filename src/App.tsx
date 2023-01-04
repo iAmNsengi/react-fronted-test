@@ -6,15 +6,19 @@ function App() {
     <GoogleOAuthProvider clientId={clientId}>
       <GoogleLogin
         text="signin_with"
-        onSuccess={(response) => {
+        onSuccess={async (response) => {
           console.log(response);
-          fetch("http://localhost:3000/auth/google-authentication", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ token: response.credential }),
-          });
+          const data = await fetch(
+            "http://localhost:3000/auth/google-authentication",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ token: response.credential }),
+            }
+          );
+          console.log(data);
         }}
       ></GoogleLogin>
     </GoogleOAuthProvider>
